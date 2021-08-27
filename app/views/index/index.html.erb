@@ -1,0 +1,74 @@
+<div class="bg-light">
+  <div class="container w-75">
+    <h1 class="text-center text-info my-4">TODO<h1>
+    <form id="form" class="mb-4">
+      <input type="text" id="input" class="form-controal" placeholder="TODOを入力" autocomplete="off">
+    </form>
+    <ul class="list-group text-secondary" id="ul"></ul>
+
+    <script>const form = document.getElementById("form");</script>
+    <script>const input = document.getElementById("input");</script>
+    <script>const ul = document.getElementById("ul");</script>
+
+    <script>const todos = JSON.parse(localStorage.getItem("todos"));</script>
+
+    <script>form.addEventListener("submit", function(event){
+        event.preventDefault();
+        add();
+      });</script>
+
+    <script>function add(todo) {
+      let todoText = input.value;
+
+      if (todo) {
+        todoText = todo.text;
+      }
+
+      if (todoText) {
+      const li =document.createElement("li")
+      li.innerText = todoText;
+      li.classList.add("list-group-item");
+
+      if (todo && todo.completed) {
+        li.classList.add("text-decoration-line-through");
+      }
+
+      li.addEventListener("contextmenu", function (event) {
+        event.preventDefault();
+        li.remove();
+        saveData();
+      });
+
+      li.addEventListener("click", function () {
+        li.classList.toggle
+        ("text-decoration-line-through");
+        saveData();
+      });
+
+      ul.appendChild(li);
+      input.value = "";
+      saveData();
+      }
+    }</script>
+    
+    <script>function saveData() {
+      const lists = document.querySelectorAll("li");
+      let todos = [];
+      lists.forEach(list => {
+        let todo = {
+          text: list.innerText,
+          completed: list.classList.contains
+          ("text-decoration-line-through")
+        };
+        todos.push(todo);
+      });
+      localStorage.setItem("todos", JSON.stringify(todos))
+    }</script>
+
+    <script>if (todos) {
+      todos.forEach(todo => {
+      add(todo);
+      })
+    };</script>
+  </div>
+</div>
